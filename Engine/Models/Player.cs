@@ -13,6 +13,7 @@ public class Player : INotifyPropertyChanged
 	private string? _characterClass;
 	private int _hitPoints;
 	private int _experiencePoints;
+	private int _experienceForLeveling = 60;
 	private int _level;
 	private int _gold;
 	public string Name
@@ -48,7 +49,24 @@ public class Player : INotifyPropertyChanged
 		set
 		{
 			_experiencePoints = value;
+
+			if (ExperiencePoints >= ExperienceForLeveling)
+			{
+				ExperienceForLeveling *= 2;
+				Level++;
+			}
+
 			OnPropertyChanged(nameof(ExperiencePoints));
+		}
+	}
+	public int ExperienceForLeveling
+	{
+		get { return _experienceForLeveling; }
+		set
+		{
+			_experienceForLeveling = value;
+
+			OnPropertyChanged(nameof(ExperienceForLeveling));
 		}
 	}
 	public int Level
