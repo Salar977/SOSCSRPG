@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace Engine.ViewModels;
 
-public class GameSession : INotifyPropertyChanged
+public class GameSession : BaseNotificationClass
 {
 	private Location _currentLocation;
 	public World CurrentWorld { get; set; }
@@ -64,7 +64,6 @@ public class GameSession : INotifyPropertyChanged
 			Gold = 25
 		};
 
-		//WorldFactory factory = new();
 		CurrentWorld = WorldFactory.CreateWorld();
 
 		CurrentLocation = CurrentWorld.LocationAt(0, 0);
@@ -72,28 +71,36 @@ public class GameSession : INotifyPropertyChanged
 
 	public void MoveNorth()
 	{
-		CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
+		if(HasLocationToNorth)
+		{
+			CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
+		}
 	}
 
 	public void MoveEast()
 	{
+		if(HasLocationToEast)
+		{
 		CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
+		}
+
 	}
 
 	public void MoveSouth()
 	{
+		if(HasLocationToSouth)
+		{
 		CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
+		}
+
 	}
 
 	public void MoveWest()
 	{
+		if(HasLocationToWest)
+		{
 		CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
-	}
+		}
 
-	public event PropertyChangedEventHandler? PropertyChanged;
-
-	protected virtual void OnPropertyChanged(string propertyName)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }
